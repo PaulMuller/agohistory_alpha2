@@ -1,0 +1,26 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Pool
+    network: matic
+    source:
+      address: "0xF0c04bb6Af39a3fb06dD8E7f45d70bcb588Ac148"
+      abi: Pool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - OwnershipTransferred
+        - TreasuryTransferred
+      abis:
+        - name: Pool
+          file: ./abis/Pool.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: TreasuryTransferred(indexed address,indexed address)
+          handler: handleTreasuryTransferred
+      file: ./src/mapping.ts
